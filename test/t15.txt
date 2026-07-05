@@ -1,0 +1,11 @@
+let x: int = 6 in {
+    let z: ref int = new x in{
+        let y: ref int = new 1 in {
+            while !z > 0 do {
+                y:= !y * !z;
+                z:= !z - 1;
+            };
+            !y
+        }
+    }
+}

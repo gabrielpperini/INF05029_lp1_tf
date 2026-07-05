@@ -72,7 +72,7 @@ Leia a estrutura de arquivos para saber o que cada um faz.
 A main roda um teste específico a partir do que for dado como entrada. O arquivo de entrada deve ser um .txt com o código a ser interpretado.
 Rodando um teste específico:
 ```bash
-dune exec lp1_tfs <caminho_arquivo_txt>
+dune exec lp1_tf <caminho_arquivo_txt>
 ```
 
 - Rodando apenas o scanner 

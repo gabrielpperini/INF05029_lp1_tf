@@ -7,7 +7,7 @@ let newline = '\r' | '\n' | "\r\n"
 rule tokenize = parse
   | [' ' '\t']           { tokenize lexbuf }  
   | newline              { Lexing.new_line lexbuf; tokenize lexbuf}
-  | '-'?['0'-'9']+ as lxm { INT (int_of_string lxm) }
+  | ['0'-'9']+ as lxm { INT (int_of_string lxm) }
   | "true"               { TRUE }
   | "false"              { FALSE }
   | "if"                 { IF }
