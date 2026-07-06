@@ -1,0 +1,4 @@
+(* t16: operadores relacionais novos (<=, >=, !=) — esperado: Bool true *)
+let x: int = 5 in {
+  (x <= 5) && (x >= 5) && (x != 4)
+}

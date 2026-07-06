@@ -1,0 +1,4 @@
+(* t18: == (sinônimo de =) combinado com != e not — esperado: Bool true *)
+let a: int = 7 in {
+  (a == 7) && not (a != 7)
+}

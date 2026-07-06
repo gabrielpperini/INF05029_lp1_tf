@@ -1,0 +1,4 @@
+(* t17: operador unário not — esperado: Int 10 *)
+let x: int = 3 in {
+  if not (x < 1) then {10} else {20}
+}

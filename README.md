@@ -7,6 +7,7 @@ O trabalho consiste em desenvolver um scanner, parser, type_infer e avaliador pa
     - Números inteiros (1, 2, 3,...);
     - Booleano (true, false);
     - Operações binárias (e1 op e2);
+    - Negação lógica (not e);
     - If-else (if e1 then {e2} else {e3});
     - Identificador (x);
     - Let (let x: T = e1 in {e2});
@@ -18,7 +19,7 @@ O trabalho consiste em desenvolver um scanner, parser, type_infer e avaliador pa
     - Sentenças separadas (e1; e2)
     - Endereço de memória (l).
 *Obs1*: e (e1, e2...) representam expressões qualquer.
-*Obs2*: op pertence ao conjunto {+, -, *, /, &&, ||, =, <, >}.
+*Obs2*: op pertence ao conjunto {+, -, *, /, &&, ||, =, ==, !=, <, <=, >, >=}. O operador == é sinônimo de =, e not é o operador unário de negação lógica.
 *Obs3*: l pertence ao conjunto de Locations, que são localizações/endereços de memória.
 *Obs4*: l's não são usados é usado pelo programador.
 
@@ -42,6 +43,7 @@ A *semântica operacional small-step* está identificada no pdf da especificaç�
 - Para o scanner, foi utilizada a biblioteca ocamllex a partir do arquivo de configurações `lexer.mll`.
 - Para o parser, foi utilizada a biblioteca menhir a partir do arquivo de configurações `parser.mly` e `ast.ml`.
 - Para simular a memória, foi usada uma Hashtbl com um contador da próxima posição livre (bump-pointer): a memória cresce sob demanda, sem limite fixo de posições;
+- Comentários no estilo `(* ... *)` são reconhecidos e ignorados pelo lexer (podem aparecer em qualquer posição e abranger várias linhas);
 - Para atribuições, o lado esquerdo podem ser expressões de acordo com o parser, mas o typeinfer se certifica que essa expressão é um identificador. 
 Leia a estrutura de arquivos para saber o que cada um faz.
 
@@ -98,3 +100,7 @@ dune exec test/testScanner.exe <caminho_arquivo_txt>
 - "t13.txt": (ERRO de type infer) while com corpo não-vazio
 - "t14.txt": fatorial de 6
 - "t15.txt": (ERRO sintático) fatorial com ";" sem segundo op
+- "t16.txt": operadores relacionais novos (<=, >=, !=)
+- "t17.txt": operador unário not
+- "t18.txt": == (sinônimo de =) combinado com != e not
+- "t19.txt": comentários (* ... *) em várias posições, inclusive multilinha

@@ -1,0 +1,7 @@
+(* t19: comentarios em varias posicoes, inclusive multilinha - esperado: Int 30 *)
+let x: int = 10 in { (* x vale dez *)
+  x + 20 (* soma vinte *)
+  (* comentario
+     de varias
+     linhas *)
+}
