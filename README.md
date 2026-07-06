@@ -41,7 +41,7 @@ A *semântica operacional small-step* está identificada no pdf da especificaç�
 - Para compilar os arquivos OCaml juntos, foi usado a biblioteca [Dune](https://dune.build/)
 - Para o scanner, foi utilizada a biblioteca ocamllex a partir do arquivo de configurações `lexer.mll`.
 - Para o parser, foi utilizada a biblioteca menhir a partir do arquivo de configurações `parser.mly` e `ast.ml`.
-- Para simular uma memória, foi usada o tipo Array do OCaml;
+- Para simular a memória, foi usada uma Hashtbl com um contador da próxima posição livre (bump-pointer): a memória cresce sob demanda, sem limite fixo de posições;
 - Para atribuições, o lado esquerdo podem ser expressões de acordo com o parser, mas o typeinfer se certifica que essa expressão é um identificador. 
 Leia a estrutura de arquivos para saber o que cada um faz.
 
@@ -92,7 +92,7 @@ dune exec test/testScanner.exe <caminho_arquivo_txt>
 - "t7.txt": teste de atribuição *
 - "t8.txt": (ERRO de type infer) atribuição com valor não declarado
 - "t9.txt": (ERRO sinatático) atribuição com espaços (": =")
-- "t10.txt": (ERRO de avaliação, memória cheia) while true com alocação
+- "t10.txt": while true com alocação — laço infinito (a memória é ilimitada, então o programa roda indefinidamente)
 - "t11.txt": teste de atribuição
 - "t12.txt": (ERRO de type infer) tipos diferentes do if
 - "t13.txt": (ERRO de type infer) while com corpo não-vazio

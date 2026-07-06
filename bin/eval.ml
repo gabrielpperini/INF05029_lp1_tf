@@ -40,7 +40,7 @@ match op,v1,v2 with
 | Gt, Int n1, Int n2 -> Bool(n1 > n2)
 | _ -> failwith "erro no typechecking, deixou permitir operandos de tipos errados" (*failwith sinaliza problema na implementação*)
 
-let rec step (e: expr) (m: storable_value array) : expr * (storable_value array) = 
+let rec step (e: expr) (m: mem) : expr * mem = 
   match e with
   | Int _ | Id _ | Bool _ | Empty | Address _ -> (* VALORES *)
     raise NoRuleApplies
@@ -50,9 +50,9 @@ let rec step (e: expr) (m: storable_value array) : expr * (storable_value array)
   | Binop(bop, v1, e2) when (is_value v1)-> 
     let (e2', m') = step e2 m in
     (Binop(bop, v1, e2'), m')
-  | Binop(bop, e1, e2) -> 
+  | Binop(bop, e1, e2) ->
     let (e1', m') = step e1 m in
-    (Binop(bop, e1', e2), m)
+    (Binop(bop, e1', e2), m')
 
   | If(Bool(true), e2, e3) ->    (* regras IF*)
     (e2, m)
@@ -71,7 +71,7 @@ let rec step (e: expr) (m: storable_value array) : expr * (storable_value array)
   | Atrib(e1, v) when is_value v ->  (* regras ATR *)
     (match e1 with
     | Address l ->
-      m.(l) <- storableValue_of_value v;
+      escreve m l v;
       (Empty, m)
     | _ -> raise NoRuleApplies)
     
@@ -82,8 +82,7 @@ let rec step (e: expr) (m: storable_value array) : expr * (storable_value array)
   | ValueAt(v) when is_value v ->  (* regras DEREF *)
       (match v with
       | Address l -> 
-        let sv = m.(l) in
-        (value_of_storableValue sv, m) (* rotina para pegar a ast do valor na memoria *)
+        (le m l, m) (* lê o valor armazenado na localização l *)
       | _ -> raise NoRuleApplies)
   | ValueAt e1 ->
     let (e1', m) = step e1 m in

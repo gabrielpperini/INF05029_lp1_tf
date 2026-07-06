@@ -10,7 +10,7 @@ let rec type_of (g: typenv) (e: expr): typ =
     | Id x ->
         (try
             List.assoc x g
-        with Not_found -> raise (TypeError ("identificador "^ x ^ "nao foi declarado")))
+        with Not_found -> raise (TypeError ("identificador " ^ x ^ " nao foi declarado")))
     | If(e1, e2, e3) ->
         if type_of g e1 = TBool then
         let t2 = type_of g e2 in
@@ -44,7 +44,7 @@ let rec type_of (g: typenv) (e: expr): typ =
         in
         let t1 = (try (* t1 é o tipo associado ao identificador x*) 
             List.assoc x g
-            with Not_found -> raise (TypeError ("identificador "^ x ^ "nao foi declarado")))  
+            with Not_found -> raise (TypeError ("identificador " ^ x ^ " nao foi declarado")))  
         in
         let t2 = type_of g e2 in 
         if t1 = TRef(t2) then

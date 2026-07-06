@@ -65,6 +65,7 @@ typ:
 | BOOL_TYPE                  { TBool }
 | UNIT_TYPE                  { TUnit }
 | REF_TYPE typ               { TRef ($2) }
+| LPAREN typ RPAREN          { $2 }
 
 
 
