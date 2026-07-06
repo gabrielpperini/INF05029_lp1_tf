@@ -28,17 +28,17 @@ let rec subst v x e =
 
 
 let compute(op, v1, v2) =  (*função auxiliar para computar o valor de uma operação com OCaml*)
-match op,v1,v2 with
-| Or, Bool b1, Bool b2 -> Bool(b1 || b2)
-| And, Bool b1, Bool b2 -> Bool(b1 && b2)
-| Plus, Int n1, Int n2 -> Int(n1 + n2)
-| Minus, Int n1, Int n2 -> Int(n1 - n2)
-| Times, Int n1, Int n2 -> Int(n1 * n2)
-| Div, Int n1, Int n2 -> Int(n1 / n2)
-| Eq, Int n1, Int n2 -> Bool(n1 = n2)
-| Lt, Int n1, Int n2 -> Bool(n1 < n2)
-| Gt, Int n1, Int n2 -> Bool(n1 > n2)
-| _ -> failwith "erro no typechecking, deixou permitir operandos de tipos errados" (*failwith sinaliza problema na implementação*)
+  match op,v1,v2 with
+  | Or, Bool b1, Bool b2 -> Bool(b1 || b2)
+  | And, Bool b1, Bool b2 -> Bool(b1 && b2)
+  | Plus, Int n1, Int n2 -> Int(n1 + n2)
+  | Minus, Int n1, Int n2 -> Int(n1 - n2)
+  | Times, Int n1, Int n2 -> Int(n1 * n2)
+  | Div, Int n1, Int n2 -> Int(n1 / n2)
+  | Eq, Int n1, Int n2 -> Bool(n1 = n2)
+  | Lt, Int n1, Int n2 -> Bool(n1 < n2)
+  | Gt, Int n1, Int n2 -> Bool(n1 > n2)
+  | _ -> failwith "erro no typechecking, deixou permitir operandos de tipos errados" (*failwith sinaliza problema na implementação*)
 
 let rec step (e: expr) (m: mem) : expr * mem = 
   match e with
