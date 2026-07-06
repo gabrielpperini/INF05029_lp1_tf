@@ -15,6 +15,7 @@ let rec subst v x e =
   | Id y when x = y -> v
   | Id y -> Id y
   | Binop(op, e1, e2) -> Binop(op, subst v x e1, subst v x e2)
+  | Not(e1) -> Not(subst v x e1)
   | If(e1, e2, e3) -> If(subst v x e1, subst v x e2, subst v x e3)
   | Let(y,t,e1, e2) when x = y ->  (* isso ta certo?*)
     Let(x,t,(subst v x e1),e2) 
@@ -38,6 +39,9 @@ let compute(op, v1, v2) =  (*função auxiliar para computar o valor de uma oper
   | Eq, Int n1, Int n2 -> Bool(n1 = n2)
   | Lt, Int n1, Int n2 -> Bool(n1 < n2)
   | Gt, Int n1, Int n2 -> Bool(n1 > n2)
+  | Leq, Int n1, Int n2 -> Bool(n1 <= n2)
+  | Geq, Int n1, Int n2 -> Bool(n1 >= n2)
+  | Neq, Int n1, Int n2 -> Bool(n1 <> n2)
   | _ -> failwith "erro no typechecking, deixou permitir operandos de tipos errados" (*failwith sinaliza problema na implementação*)
 
 let rec step (e: expr) (m: mem) : expr * mem = 
@@ -53,6 +57,11 @@ let rec step (e: expr) (m: mem) : expr * mem =
   | Binop(bop, e1, e2) ->
     let (e1', m') = step e1 m in
     (Binop(bop, e1', e2), m')
+
+  | Not(Bool b) -> (Bool(not b), m)   (* regra NOT *)
+  | Not(e1) ->
+    let (e1', m') = step e1 m in
+    (Not e1', m')
 
   | If(Bool(true), e2, e3) ->    (* regras IF*)
     (e2, m)

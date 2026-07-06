@@ -9,7 +9,7 @@ type typ =
 type bop =
   | Plus | Minus | Times | Div
   | And | Or
-  | Eq | Lt | Gt 
+  | Eq | Lt | Gt | Leq | Geq | Neq 
 
 type expr =
   | Int of int
@@ -22,6 +22,7 @@ type expr =
   | Let of string * typ * expr * expr
   | Atrib of expr * expr
   | Binop of bop * expr * expr
+  | Not of expr (* not e *)
   | Sentence of expr * expr (* e1;e2 *)
   | Empty (* () *)
   | Address of int(* l *)

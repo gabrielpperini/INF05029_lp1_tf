@@ -24,6 +24,9 @@ let string_of_bop = function
   | Eq -> "Eq"
   | Lt -> "Lt"
   | Gt -> "Gt"
+  | Leq -> "Leq"
+  | Geq -> "Geq"
+  | Neq -> "Neq"
 
 let rec string_of_expr = function
   | Int n -> Printf.sprintf "Int %s" (string_of_int n)
@@ -38,6 +41,7 @@ let rec string_of_expr = function
   | Binop (op, e1, e2) ->
       Printf.sprintf "Binop(%s , %s , %s)"
         (string_of_bop op) (string_of_expr e1) (string_of_expr e2)
+  | Not e -> Printf.sprintf "Not(%s)" (string_of_expr e)
   | Atrib (x, e) ->
       Printf.sprintf "Atrib(%s , %s)" (string_of_expr x) (string_of_expr e)
   | ValueAt (e) -> Printf.sprintf "ValueAt(%s)" (string_of_expr e)

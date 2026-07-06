@@ -51,13 +51,16 @@ let rec type_of (g: typenv) (e: expr): typ =
             TUnit
         else
             raise(TypeError "numa expressão Atrib(x, e) o tipo de e deve ser T, e o tipo de x deve ser TRef(T)")
+    | Not e ->
+        if type_of g e = TBool then TBool
+        else raise (TypeError "operador 'not' requer um operando do tipo Bool")
     | Binop(bop, e1, e2) ->
         let t1 = type_of g e1 in
         let t2 = type_of g e2 in
         (match bop with
         | Plus | Minus | Times | Div -> if t1 = TInt && t2 = TInt then TInt
             else raise (TypeError "operações aritmeticas requerem operandos do tipo Int")
-        | Eq | Lt | Gt ->
+        | Eq | Lt | Gt | Leq | Geq | Neq ->
             if t1 = TInt && t2 = TInt then TBool
             else raise (TypeError "operações relacionais requerem operandos do tipo Int")
         | And | Or ->
