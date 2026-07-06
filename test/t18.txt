@@ -1,0 +1,6 @@
+(* t18: closure sobre estado mutável (contador) — (next()) + (next()) = 1 + 2 = 3 *)
+let contador: ref int = new 0 in {
+  let next: unit -> int = fn z: unit => {contador := !contador + 1; !contador} in {
+    (next ()) + (next ())
+  }
+}

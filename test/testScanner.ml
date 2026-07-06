@@ -2,8 +2,8 @@ open Lp1_tf
 open Parser
 open Lexer
 
-let string_of_token token = (*função que converte token para string, sem precisar declarar o tipo token*)
-  match token with  
+let string_of_token token =  (* converte token para string *)
+  match token with
   | INT i      -> Printf.sprintf "INT(%d)" i
   | TRUE       -> "TRUE"
   | FALSE      -> "FALSE"
@@ -12,7 +12,10 @@ let string_of_token token = (*função que converte token para string, sem preci
   | THEN       -> "THEN"
   | ELSE       -> "ELSE"
   | LET        -> "LET"
+  | REC        -> "REC"
   | IN         -> "IN"
+  | FN         -> "FN"
+  | NOT        -> "NOT"
   | LBRACE     -> "LBRACE"
   | RBRACE     -> "RBRACE"
   | WHILE      -> "WHILE"
@@ -30,12 +33,17 @@ let string_of_token token = (*função que converte token para string, sem preci
   | EQ         -> "EQ"
   | LT         -> "LT"
   | GT         -> "GT"
+  | LE         -> "LE"
+  | GE         -> "GE"
+  | NEQ        -> "NEQ"
   | EXCL       -> "EXCL"
   | LPAREN     -> "LPAREN"
   | RPAREN     -> "RPAREN"
   | COLON      -> "COLON"
   | SEMICOLON  -> "SEMICOLON"
   | ASSIGN     -> "ASSIGN"
+  | ARROW      -> "ARROW"
+  | DARROW     -> "DARROW"
   | NEW        -> "NEW"
   | EOF        -> "EOF"
 
@@ -45,9 +53,9 @@ let rec print_all_tokens lexbuf =
     print_endline (string_of_token next_token);
     if next_token <> EOF then print_all_tokens lexbuf
   with
-  | Lexer.Lexing_error msg -> 
+  | Lexer.Lexing_error msg ->
       Printf.printf "Erro léxico intermediário: %s\n" msg
-      
+
 let test_scanner file_path =
   let input_channel = open_in file_path in
   let lexbuf = Lexing.from_channel input_channel in
@@ -55,13 +63,8 @@ let test_scanner file_path =
   close_in input_channel
 
 let () =
-  (* Verifica se o usuário forneceu um nome de arquivo *)
-  if Array.length Sys.argv <> 2 then 
-  begin
+  if Array.length Sys.argv <> 2 then begin
     Printf.eprintf "Uso: %s <arquivo-fonte>\n" Sys.argv.(0);
     exit 1
   end;
-
-  let filename = Sys.argv.(1) in
-  (* Tenta fazer o parse do arquivo *)  
-  test_scanner filename
+  test_scanner Sys.argv.(1)

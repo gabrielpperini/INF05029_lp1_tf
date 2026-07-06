@@ -1,0 +1,4 @@
+(* t17: função de primeira classe e aplicação — dobro de 21 = 42 *)
+let dobro: int -> int = fn x: int => {x + x} in {
+  dobro 21
+}

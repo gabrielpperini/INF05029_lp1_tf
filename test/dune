@@ -1,3 +1,12 @@
+; test_l2: suíte automatizada ponta-a-ponta (roda com `dune test`)
 (test
+ (name test_l2)
+ (modules test_l2)
+ (libraries lp1_tf))
+
+; testScanner: ferramenta manual para inspecionar tokens de um arquivo.
+; Não é rodada por `dune test`; use `dune exec test/testScanner.exe -- <arquivo>`
+(executable
  (name testScanner)
+ (modules testScanner)
  (libraries lp1_tf))
