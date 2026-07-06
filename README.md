@@ -85,22 +85,33 @@ dune exec test/testScanner.exe <caminho_arquivo_txt>
 
 
 ## Especificação dos testes
-- "t1.txt": let com soma
-- "t2.txt": soma com let
-- "t3.txt": soma e multiplicação
-- "t4.txt": soma com valores negativos
-- "t5.txt": let com alocação, atribuição e deref *
-- "t6.txt": divisão por zero
-- "t7.txt": teste de atribuição *
-- "t8.txt": (ERRO de type infer) atribuição com valor não declarado
-- "t9.txt": (ERRO sinatático) atribuição com espaços (": =")
-- "t10.txt": while true com alocação — laço infinito (a memória é ilimitada, então o programa roda indefinidamente)
-- "t11.txt": teste de atribuição
-- "t12.txt": (ERRO de type infer) tipos diferentes do if
-- "t13.txt": (ERRO de type infer) while com corpo não-vazio
-- "t14.txt": fatorial de 6
-- "t15.txt": (ERRO sintático) fatorial com ";" sem segundo op
-- "t16.txt": operadores relacionais novos (<=, >=, !=)
-- "t17.txt": operador unário not
-- "t18.txt": == (sinônimo de =) combinado com != e not
-- "t19.txt": comentários (* ... *) em várias posições, inclusive multilinha
+
+A coluna **Resultado** traz a saída obtida ao rodar `dune exec lp1_tf test/<arquivo>`.
+Os testes marcados como *(ERRO ...)* são casos negativos, cuja saída esperada é
+justamente a mensagem de erro da fase correspondente (sintático ou de tipo).
+
+| Arquivo | Descrição | Resultado |
+|---|---|---|
+| t1.txt  | let com soma | `Int 13` |
+| t2.txt  | soma com let | `Int 20` |
+| t3.txt  | soma e multiplicação | `Int 15` |
+| t4.txt  | subtração com resultado negativo | `Int -2` |
+| t5.txt  | let com alocação, atribuição e deref | `Bool true` |
+| t6.txt  | divisão por zero | `Erro de execução: divisão por zero` |
+| t7.txt  | atribuição + condicional sobre deref | `Bool false` |
+| t8.txt  | (ERRO de tipo) atribuição a identificador não declarado | `Erro de tipo: identificador x nao foi declarado` |
+| t9.txt  | (ERRO sintático) atribuição com espaço no operador (`": ="`) | `Erro de Sintaxe: na linha 1, coluna 2` |
+| t10.txt | while true com alocação — **diverge** (laço infinito; memória ilimitada) | *não termina* |
+| t11.txt | atribuições sucessivas + comparação | `Bool true` |
+| t12.txt | (ERRO de tipo) ramos then/else de tipos diferentes | `Erro de tipo: tipos de expressoes then e else devem ser iguais` |
+| t13.txt | (ERRO de tipo) corpo do while não é unit | `Erro de tipo: corpo do while deve ser do tipo unit` |
+| t14.txt | fatorial de 6 (via while + refs) | `Int 720` |
+| t15.txt | (ERRO sintático) `;` sem segundo operando | `Erro de Sintaxe: na linha 7, coluna 13` |
+| t16.txt | operadores relacionais novos (`<=`, `>=`, `!=`) | `Bool true` |
+| t17.txt | operador unário `not` | `Int 10` |
+| t18.txt | `==` (sinônimo de `=`) combinado com `!=` e `not` | `Bool true` |
+| t19.txt | comentários `(* ... *)` em várias posições, inclusive multilinha | `Int 30` |
+
+> **t10** roda indefinidamente por definição (a memória cresce sob demanda, sem
+> limite), então não deve ser incluído em rodagens automatizadas — é o exemplo de
+> divergência (não-terminação) da linguagem.
